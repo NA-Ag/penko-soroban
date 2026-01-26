@@ -1,20 +1,16 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Soroban Master
 
-# Run and deploy your AI Studio app
+Soroban Master is a free, open-source application aimed at helping users master mathematics through the use of the abacus. It is inspired by the Japanese approach to the soroban (note that abacus in Japanese is soroban, hence the name).
 
-This contains everything you need to run your app locally.
+While this is the alpha version, we are going to be updating the lessons to provide a full, comprehensive tutorial and mastery of mathematics through the abacus, and later mental mathematics. This culminates in the user understanding how to break down complex problems into simple operations they can do in their heads. That is basically what we are doing here: getting the user from zero to max.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1wPNOnNdsCkMPJt0k6X0TzKUxnW9psjNE
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
+## Getting Started
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+
+2. Generate icons:
+   `npm run generate-icons`
+
 3. Run the app:
    `npm run dev`
