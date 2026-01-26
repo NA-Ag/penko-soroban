@@ -1,0 +1,12 @@
+body {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.font-mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Bead animation classes */
+.bead {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
