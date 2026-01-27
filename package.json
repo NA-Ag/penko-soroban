@@ -1,13 +1,18 @@
 {
   "name": "penko-soroban",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "The ultimate Progressive Web App for mastering the Japanese Abacus (Soroban).",
+  "author": "Penko Software <contact@penkosoftware.org>",
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node generate-icons.js",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run build && electron-builder"
   },
   "dependencies": {
     "react": "^19.2.3",
@@ -16,9 +21,35 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
-    "sharp": "^0.33.2",
+    "concurrently": "^9.2.1",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.4.0",
+    "sharp": "^0.33.5",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
-    "vite-plugin-pwa": "^0.21.1"
+    "vite-plugin-pwa": "^0.21.1",
+    "wait-on": "^9.0.3"
+  },
+  "build": {
+    "appId": "org.penkosoftware.soroban",
+    "productName": "Penko Soroban",
+    "icon": "public/pwa-512x512.png",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Education"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
   }
 }

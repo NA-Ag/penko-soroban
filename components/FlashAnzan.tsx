@@ -12,6 +12,7 @@ const FlashAnzan: React.FC<FlashAnzanProps> = ({ settings, onComplete, onCancel 
   const [currentIndex, setCurrentIndex] = useState(-1); // -1: Ready, 0...N: Showing, N+1: Input
   const [numbers, setNumbers] = useState<number[]>([]);
   const [showBlank, setShowBlank] = useState(false);
+  const [isSequenceStarted, setIsSequenceStarted] = useState(false);
   
   // Audio context for beep (optional enhancement for rhythm)
   // const playBeep = () => { ... }
@@ -42,43 +43,44 @@ const FlashAnzan: React.FC<FlashAnzanProps> = ({ settings, onComplete, onCancel 
   }, []); // Run once on mount
 
   const startSequence = () => {
-    setCurrentIndex(0);
+    setIsSequenceStarted(true);
   };
 
   useEffect(() => {
-    if (numbers.length === 0 || currentIndex === -1) return;
+    if (!isSequenceStarted || numbers.length === 0) return;
 
-    if (currentIndex >= numbers.length) {
-      // Finished
-      const sum = numbers.reduce((a, b) => a + b, 0);
-      onComplete(numbers, sum);
-      return;
-    }
-
-    // Sequence logic: Show Number -> Show Blank -> Next Number
-    // The "Interval" includes the visual duration. 
-    // Usually Flash Anzan is: Number (X ms) -> Blank (Y ms). 
-    // To simplify: Show number for 80% of interval, blank for 20%.
-    
+    let animationFrameId: number;
+    const startTime = performance.now();
     const showDuration = Math.max(settings.interval * 0.7, 50); // Ensure at least 50ms visibility
-    const blankDuration = settings.interval - showDuration;
 
-    setCurrentNumber(numbers[currentIndex]);
-    setShowBlank(false);
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const index = Math.floor(elapsed / settings.interval);
 
-    const blankTimer = setTimeout(() => {
-      setShowBlank(true);
-    }, showDuration);
+      if (index >= settings.count) {
+        // Finished
+        const sum = numbers.reduce((a, b) => a + b, 0);
+        onComplete(numbers, sum);
+        return;
+      }
 
-    const nextTimer = setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
-    }, settings.interval);
+      const timeInInterval = elapsed % settings.interval;
+      const isBlank = timeInInterval >= showDuration;
+
+      // Update state based on calculated time
+      setCurrentIndex(index);
+      setCurrentNumber(numbers[index]);
+      setShowBlank(isBlank);
+
+      animationFrameId = requestAnimationFrame(tick);
+    };
+
+    animationFrameId = requestAnimationFrame(tick);
 
     return () => {
-      clearTimeout(blankTimer);
-      clearTimeout(nextTimer);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [currentIndex, numbers, settings, onComplete]);
+  }, [isSequenceStarted, numbers, settings, onComplete]);
 
   // Render logic
   return (
