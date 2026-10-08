@@ -1,12 +1,67 @@
+@import '@fontsource-variable/nunito';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colours as RGB triplets, used through Tailwind (see tailwind.config.js).
+   Light: washi paper, sumi ink, vermilion seal red. Dark: black lacquer and gold. */
+:root {
+  --paper: 244 239 228;
+  --surface: 251 248 241;
+  --sunken: 236 229 214;
+  --ink: 28 25 22;
+  --muted: 98 89 78;
+  --line: 221 210 189;
+  --shu: 184 50 29;
+  --shu-ink: 255 255 255;
+  --gold: 150 108 30;
+  --wood: 139 79 38;
+  --wood-dark: 84 44 20;
+  --bead: 52 32 22;
+  --bead-light: 128 84 56;
+  --ok: 40 110 64;
+  --shadow: 60 40 20;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: 20 17 16;
+  --surface: 31 26 24;
+  --sunken: 14 12 11;
+  --ink: 239 230 216;
+  --muted: 178 166 150;
+  --line: 60 52 47;
+  --shu: 236 104 78;
+  --shu-ink: 20 17 16;
+  --gold: 214 170 80;
+  --wood: 120 66 32;
+  --wood-dark: 66 34 17;
+  --bead: 96 54 34;
+  --bead-light: 170 108 70;
+  --ok: 120 196 146;
+  --shadow: 0 0 0;
+  color-scheme: dark;
+}
+
+html { -webkit-tap-highlight-color: transparent; }
+
 body {
-  font-family: 'Roboto Mono', monospace;
+  @apply bg-paper text-ink font-sans antialiased;
+  /* A faint paper grain, drawn inline so it works offline */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .2 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.font-mono {
-  font-family: 'Roboto Mono', monospace;
+.dark body { background-image: none; }
+
+:focus-visible { @apply outline outline-2 outline-offset-2 outline-shu; }
+
+/* Numbers line up in columns everywhere: answers, timers, scores */
+.tabular { font-variant-numeric: tabular-nums lining-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
 
-/* Bead animation classes */
-.bead {
-  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Abacus rods draw their own focus ring inside the frame */
+svg [role='slider']:focus-visible { outline: none; }

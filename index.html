@@ -2,29 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Penko Soroban</title>
-    <link rel="icon" type="image/svg+xml" href="./penguin-soroban-logo.svg" />
-    <link rel="apple-touch-icon" href="./penguin-soroban-logo.svg" />
-    <meta name="theme-color" content="#0f172a" />
-    <meta name="description" content="The ultimate Progressive Web App for mastering the Japanese Abacus (Soroban)." />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Soroban">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
-</head>
-  <body class="bg-slate-950 text-white antialiased selection:bg-purple-500 selection:text-white">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f4efe4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141110" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <title>Penko Soroban: learn the abacus, master mental math</title>
+    <meta name="description" content="Learn the Japanese abacus step by step, from your first bead to Flash Anzan mental math. Free, open source, no account, works offline." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://soroban.penkosoftware.org/" />
+    <meta property="og:title" content="Penko Soroban" />
+    <meta property="og:description" content="Learn the Japanese abacus step by step, from your first bead to Flash Anzan mental math." />
+    <script>
+      // Apply the saved or system theme before first paint, so dark mode never flashes light
+      try {
+        var saved = JSON.parse(localStorage.getItem('penko-soroban/settings') || '{}').theme;
+        if (saved === 'dark' || ((!saved || saved === 'system') && matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>
